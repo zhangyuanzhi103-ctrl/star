@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.mapper.StarMapper">
+
+    <!-- app端：球星列表，只返回一张图片 -->
+    <select id="listAppStars" resultType="com.itheima.entity.domain.StarAppListVO">
+        SELECT
+        id,
+        SUBSTRING_INDEX(images, '$', 1) AS image,
+        name,
+        team,
+        position
+        FROM star
+        WHERE is_deleted = 0
+    </select>
+
+    <!-- app端：球星详情，返回完整轮播图和简介 -->
+    <select id="getAppStarDetail" resultType="com.itheima.entity.Star">
+        SELECT
+        id,
+        images,
+        name,
+        team,
+        position,
+        detailIntro
+        FROM star
+        WHERE id = #{id}
+        AND is_deleted = 0
+    </select>
+
+    <!-- console端：新增球星 -->
+    <insert id="insert" parameterType="com.itheima.entity.Star">
+        INSERT INTO star
+        (
+        images,
+        name,
+        team,
+        position,
+        detailIntro,
+        create_time,
+        update_time,
+        is_deleted
+        )
+        VALUES
+        (
+        #{images},
+        #{name},
+        #{team},
+        #{position},
+        #{detailIntro},
+        UNIX_TIMESTAMP(),
+        UNIX_TIMESTAMP(),
+        0
+        )
+    </insert>
+
+    <!-- console端：修改球星 -->
+    <update id="update" parameterType="com.itheima.entity.Star">
+        UPDATE star
+        SET
+        images = #{images},
+        name = #{name},
+        team = #{team},
+        position = #{position},
+        detailIntro = #{detailIntro},
+        update_time = UNIX_TIMESTAMP()
+        WHERE id = #{id}
+        AND is_deleted = 0
+    </update>
+
+    <!-- console端：逻辑删除 -->
+    <update id="deleteById">
+        UPDATE star
+        SET
+        is_deleted = 1,
+        update_time = UNIX_TIMESTAMP()
+        WHERE id = #{id}
+        AND is_deleted = 0
+    </update>
+
+</mapper>
