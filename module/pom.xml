@@ -4,18 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.itheima</groupId>
-        <artifactId>springboot-multi-demo</artifactId>
+        <groupId>com.zyz.star</groupId>
+        <artifactId>star</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>module</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>demo-entity</module>
-        <module>demo-mapper</module>
-        <module>demo-service</module>
-    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

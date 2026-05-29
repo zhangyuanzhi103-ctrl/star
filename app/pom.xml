@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.itheima</groupId>
-        <artifactId>springboot-multi-demo</artifactId>
+        <groupId>com.zyz.star</groupId>
+        <artifactId>star</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -19,13 +19,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.itheima</groupId>
-            <artifactId>demo-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.itheima</groupId>
-            <artifactId>demo-service</artifactId>
+            <groupId>com.zyz.star</groupId>
+            <artifactId>module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!--SpringMVC的SpringBoot版坐标-->
@@ -41,10 +37,11 @@
             <scope>test</scope>
         </dependency>
 
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
         </dependency>
     </dependencies>
 

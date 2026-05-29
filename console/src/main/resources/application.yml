@@ -9,6 +9,6 @@ spring:
     password: ${DB_PASSWORD:}
 
 mybatis:
-  mapper-locations: classpath*:mapper/*.xml
+  mapper-locations: classpath*:*.xml
   configuration:
     map-underscore-to-camel-case: true
