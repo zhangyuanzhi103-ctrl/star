@@ -31,46 +31,96 @@
         AND is_deleted = 0
     </select>
 
-    <!-- console端：新增球星 -->
+    <!-- console端：动态新增球星 -->
     <insert id="insert"
             parameterType="com.zyz.star.module.entity.Star"
             useGeneratedKeys="true"
             keyProperty="id"
             keyColumn="id">
         INSERT INTO star
-        (
-        images,
-        name,
-        team,
-        position,
-        detailIntro,
-        create_time,
-        update_time,
-        is_deleted
-        )
-        VALUES
-        (
-        #{images},
-        #{name},
-        #{team},
-        #{position},
-        #{detailIntro},
-        UNIX_TIMESTAMP(),
-        UNIX_TIMESTAMP(),
-        0
-        )
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="images != null and images != ''">
+                images,
+            </if>
+
+            <if test="name != null and name != ''">
+                name,
+            </if>
+
+            <if test="team != null and team != ''">
+                team,
+            </if>
+
+            <if test="position != null and position != ''">
+                position,
+            </if>
+
+            <if test="detailIntro != null and detailIntro != ''">
+                detailIntro,
+            </if>
+
+            create_time,
+            update_time,
+            is_deleted
+        </trim>
+
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="images != null and images != ''">
+                #{images},
+            </if>
+
+            <if test="name != null and name != ''">
+                #{name},
+            </if>
+
+            <if test="team != null and team != ''">
+                #{team},
+            </if>
+
+            <if test="position != null and position != ''">
+                #{position},
+            </if>
+
+            <if test="detailIntro != null and detailIntro != ''">
+                #{detailIntro},
+            </if>
+
+            UNIX_TIMESTAMP(),
+            UNIX_TIMESTAMP(),
+            0
+        </trim>
     </insert>
 
-    <!-- console端：修改球星 -->
+    <!-- console端：动态修改球星 -->
     <update id="update" parameterType="com.zyz.star.module.entity.Star">
         UPDATE star
-        SET
-        images = #{images},
-        name = #{name},
-        team = #{team},
-        position = #{position},
-        detailIntro = #{detailIntro},
-        update_time = UNIX_TIMESTAMP()
+
+        <set>
+            <if test="images != null and images != ''">
+                images = #{images},
+            </if>
+
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+
+            <if test="team != null and team != ''">
+                team = #{team},
+            </if>
+
+            <if test="position != null and position != ''">
+                position = #{position},
+            </if>
+
+            <if test="detailIntro != null and detailIntro != ''">
+                detailIntro = #{detailIntro},
+            </if>
+
+            update_time = UNIX_TIMESTAMP()
+        </set>
+
+        <!--update 里 id 是 WHERE 必须条件，不需要动态判断-->
         WHERE id = #{id}
         AND is_deleted = 0
     </update>
