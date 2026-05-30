@@ -1,8 +1,5 @@
 package com.zyz.star.console.controller;
 
-
-
-
 import com.zyz.star.module.entity.Star;
 import com.zyz.star.module.service.StarService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +24,7 @@ public class StarController {
     @PostMapping
     public String insert(@RequestBody Star star) {
         log.info("添加的球星信息为：{}", star);
-        Boolean flag = starService.insert(star);
-        return flag ? "添加成功" : "添加失败";
+        return starService.insert(star);
     }
 
     @PutMapping

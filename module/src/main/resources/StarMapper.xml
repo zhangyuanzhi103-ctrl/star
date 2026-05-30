@@ -32,7 +32,11 @@
     </select>
 
     <!-- console端：新增球星 -->
-    <insert id="insert" parameterType="com.zyz.star.module.entity.Star">
+    <insert id="insert"
+            parameterType="com.zyz.star.module.entity.Star"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            keyColumn="id">
         INSERT INTO star
         (
         images,
@@ -70,6 +74,15 @@
         WHERE id = #{id}
         AND is_deleted = 0
     </update>
+
+    <select id="countByNameTeamPosition" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM star
+        WHERE name = #{name}
+        AND team = #{team}
+        AND position = #{position}
+        AND is_deleted = 0
+    </select>
 
     <!-- console端：逻辑删除 -->
     <update id="deleteById">

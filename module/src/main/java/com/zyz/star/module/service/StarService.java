@@ -1,19 +1,58 @@
 package com.zyz.star.module.service;
 
-
 import com.zyz.star.module.entity.Star;
+import com.zyz.star.module.mapper.StarMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface StarService {
+@Slf4j
+@Service
+public class StarService {
 
-    List<Star> listAppStars();
+    @Autowired
+    private StarMapper starMapper;
 
-    Star getAppStarDetail(Long id);
+    public List<Star> listAppStars() {
+        return starMapper.listAppStars();
+    }
 
-    Boolean deleteById(Integer id);
+    public Star getAppStarDetail(Long id) {
+        return starMapper.getAppStarDetail(id);
+    }
 
-    Boolean insert(Star star);
+    public Boolean deleteById(Integer id) {
+        Integer rows = starMapper.deleteById(id);
+        return rows != null && rows > 0;
+    }
 
-    Boolean update(Star star);
+    /**
+     * 新增球星，并返回自增 id
+     */
+    public String insert(Star star) {
+        Integer count = starMapper.countByNameTeamPosition(
+                star.getName(),
+                star.getTeam(),
+                star.getPosition()
+        );
+
+        if (count != null && count > 0) {
+            return "添加失败：该球星已存在";
+        }
+
+        Integer rows = starMapper.insert(star);
+
+        if (rows != null && rows > 0) {
+            return "添加成功，自增id为：" + star.getId();
+        }
+
+        return "添加失败";
+    }
+
+    public Boolean update(Star star) {
+        Integer rows = starMapper.update(star);
+        return rows != null && rows > 0;
+    }
 }

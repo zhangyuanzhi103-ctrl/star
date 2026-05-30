@@ -1,221 +1,120 @@
-# 球星 APP
+# 球星APP
 
-baseUrl: `http://localhost:8081`
+baseUrl: http://localhost:8085
 
-## 1、球星列表
+### 1、球星列表
 
-接口地址：
-
-```text
-GET /star/list
-```
+/star/list
 
 参数：
 
-无
-
 返回：
 
-```json
+```text
 {
-  "list": [
-    {
-      "image": "https://example.com/star.jpg",
-      "name": "勒布朗·詹姆斯",
-      "team": "LAL",
-      "id": 1
-    }
-  ]
+    list:[
+        {
+            image:[String],
+            name:[String],
+            team:[String],
+            id:[Int]
+        }
+    ]
 }
 ```
 
-字段说明：
+### 2、球星详情
 
-| 字段名   | 类型      | 说明     |
-| ----- | ------- | ------ |
-| list  | Array   | 球星列表   |
-| image | String  | 球星图片   |
-| name  | String  | 球星姓名   |
-| team  | String  | 所属球队简称 |
-| id    | Integer | 球星 ID  |
-
-## 2、球星详情
-
-接口地址：
-
-```text
-GET /star/info
-```
+/star/info
 
 参数：
 
-| 参数名 | 类型      | 是否必填 | 说明    |
-| --- | ------- | ---- | ----- |
-| id  | Integer | 是    | 球星 ID |
+id:[Int]
 
 返回：
 
-```json
+```text
 {
-  "images": [
-    "https://example.com/star1.jpg",
-    "https://example.com/star2.jpg"
-  ],
-  "name": "勒布朗·詹姆斯",
-  "team": "LAL",
-  "position": "前锋",
-  "detailIntro": "勒布朗·詹姆斯，美国职业篮球运动员，司职前锋。"
+    images:[String[]],
+    name:[String], 
+    team:[String],
+    position:[String], 
+    detailIntro:[String]
 }
 ```
 
-字段说明：
+# 商城CONSOLE
 
-| 字段名         | 类型     | 说明     |
-| ----------- | ------ | ------ |
-| images      | Array  | 球星轮播图  |
-| name        | String | 球星姓名   |
-| team        | String | 所属球队简称 |
-| position    | String | 场上位置   |
-| detailIntro | String | 球星简介   |
+baseUrl: http://localhost:8086
 
-# 球星 CONSOLE
+### 1、球星新增
 
-baseUrl: `http://localhost:8082`
-
-## 1、球星新增
-
-接口地址：
-
-```text
-POST /star/create
-```
+POST /star
 
 参数：
 
-```json
-{
-  "images": "https://example.com/star1.jpg$https://example.com/star2.jpg",
-  "name": "勒布朗·詹姆斯",
-  "team": "LAL",
-  "position": "前锋",
-  "detailIntro": "勒布朗·詹姆斯，美国职业篮球运动员，司职前锋。"
-}
-```
+images:[String]
 
-字段说明：
+name:[String]
 
-| 字段名         | 类型     | 是否必填 | 说明                  |
-| ----------- | ------ | ---- | ------------------- |
-| images      | String | 是    | 轮播图，多个图片地址使用 `$` 拼接 |
-| name        | String | 是    | 球星姓名                |
-| team        | String | 是    | 所属球队简称              |
-| position    | String | 是    | 场上位置                |
-| detailIntro | String | 否    | 球星简介                |
+team:[String]
+
+position:[String]
+
+detailIntro:[String]
 
 返回：
 
-```text
-成功
-```
+添加成功，自增id为：[Int] or 添加失败：该球星已存在
 
-或：
+### 2、产品修改
 
-```text
-失败
-```
-
-## 2、球星修改
-
-接口地址：
-
-```text
-PUT /star/update/{id}
-```
+PUT /star
 
 参数：
 
-路径参数：
+id:[Int]
 
-| 参数名 | 类型      | 是否必填 | 说明    |
-| --- | ------- | ---- | ----- |
-| id  | Integer | 是    | 球星 ID |
+images:[String]
 
-请求体：
+name:[String]
 
-```json
-{
-  "images": "https://example.com/star1.jpg$https://example.com/star2.jpg",
-  "name": "勒布朗·詹姆斯",
-  "team": "LAL",
-  "position": "前锋",
-  "detailIntro": "勒布朗·詹姆斯，美国职业篮球运动员，司职前锋。"
-}
-```
+team:[String]
 
-字段说明：
+position:[String]
 
-| 字段名         | 类型     | 是否必填 | 说明                  |
-| ----------- | ------ | ---- | ------------------- |
-| images      | String | 是    | 轮播图，多个图片地址使用 `$` 拼接 |
-| name        | String | 是    | 球星姓名                |
-| team        | String | 是    | 所属球队简称              |
-| position    | String | 是    | 场上位置                |
-| detailIntro | String | 否    | 球星简介                |
+detailIntro:[String]
 
 返回：
 
-```text
-成功
-```
+成功 or 失败
 
-或：
+### 3、产品删除
 
-```text
-失败
-```
-
-## 3、球星删除
-
-接口地址：
-
-```text
-DELETE /star/delete/{id}
-```
+DELETE /star
 
 参数：
 
-路径参数：
-
-| 参数名 | 类型      | 是否必填 | 说明    |
-| --- | ------- | ---- | ----- |
-| id  | Integer | 是    | 球星 ID |
+id:[Int]
 
 返回：
 
-```text
-成功
-```
-
-或：
-
-```text
-失败
-```
+成功 or 失败
 
 # 数据库设计
 
 ```sql
-CREATE TABLE `star` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `images` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '轮播图，$拼接',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '球星姓名',
-  `team` varchar(100) NOT NULL COMMENT '所属球队',
-  `position` varchar(100) NOT NULL COMMENT '场上位置',
-  `detailIntro` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '球星简介',
-  `create_time` int unsigned NOT NULL,
-  `update_time` int unsigned NOT NULL,
-  `is_deleted` tinyint unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `idx_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='NBA球星信息表';
+CREATE TABLE `nba_star` (
+                            `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+                            `images` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '轮播图，$拼接',
+                            `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '球星姓名',
+                            `team` varchar(100) NOT NULL COMMENT '所属球队',
+                            `position` varchar(100) NOT NULL COMMENT '场上位置',
+                            `detailIntro` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '球星简介',
+                            `create_time` int unsigned NOT NULL,
+                            `update_time` int unsigned NOT NULL,
+                            `is_deleted` tinyint unsigned NOT NULL DEFAULT '0',
+                            PRIMARY KEY (`id`),
+                            KEY `idx_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='NBA球星信息表'
 ```

@@ -5,13 +5,15 @@ import com.zyz.star.app.domain.StarAppListVO;
 import com.zyz.star.app.domain.StarListVO;
 import com.zyz.star.module.entity.Star;
 import com.zyz.star.module.service.StarService;
+import com.zyz.star.module.util.StarImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -25,17 +27,20 @@ public class StarController {
     @GetMapping("/list")
     public StarListVO findAll() {
         log.info("进入球星列表接口");
+
         List<Star> stars = starService.listAppStars();
         List<StarAppListVO> voList = new ArrayList<>();
+
         for (Star star : stars) {
             StarAppListVO vo = new StarAppListVO()
                     .setId(star.getId())
-                    .setImage(getFirstImage(star.getImages()))
+                    .setImage(StarImageUtil.getFirstImage(star.getImages()))
                     .setName(star.getName())
                     .setTeam(star.getTeam());
 
             voList.add(vo);
         }
+
         StarListVO result = new StarListVO();
         result.setList(voList);
         return result;
@@ -53,25 +58,10 @@ public class StarController {
 
         return new StarAppDetailVO()
                 .setId(star.getId())
-                .setImages(splitImages(star.getImages()))
+                .setImages(StarImageUtil.splitImages(star.getImages()))
                 .setName(star.getName())
                 .setTeam(star.getTeam())
                 .setPosition(star.getPosition())
                 .setDetailIntro(star.getDetailIntro());
-    }
-    private String getFirstImage(String images) {
-        if (images == null || images.isBlank()) {
-            return null;
-        }
-
-        return images.split("\\$")[0];
-    }
-
-    private List<String> splitImages(String images) {
-        if (images == null || images.isBlank()) {
-            return Collections.emptyList();
-        }
-
-        return Arrays.asList(images.split("\\$"));
     }
 }
