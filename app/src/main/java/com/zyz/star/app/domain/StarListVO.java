@@ -8,4 +8,6 @@ import java.util.List;
 public class StarListVO {
     private List<StarAppListVO> list;
 
+    private Boolean isEnd;
+
 }

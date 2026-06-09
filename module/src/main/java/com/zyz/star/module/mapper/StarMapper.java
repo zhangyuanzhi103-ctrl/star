@@ -11,9 +11,21 @@ import java.util.List;
 public interface StarMapper {
 
 
-    List<Star> listAppStars();
+    List<Star> listAppStars(
+            @Param("offset") Integer offset,
+            @Param("limit") Integer limit
+    );
 
     Star getAppStarDetail(Long id);
+
+    List<Star> listConsoleStars(
+            @Param("offset") Integer offset,
+            @Param("pageSize") Integer pageSize
+    );
+
+    Long countConsoleStars();
+
+    Star getConsoleStarDetail(Long id);
 
     Integer deleteById(Integer id);
 

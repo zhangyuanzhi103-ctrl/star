@@ -1,7 +1,9 @@
 package com.zyz.star.module.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class StarImageUtil {
@@ -23,5 +25,16 @@ public class StarImageUtil {
         }
 
         return Arrays.asList(images.split("\\$"));
+    }
+
+    public static String formatTime(Long timestamp) {
+        if (timestamp == null) {
+            return null;
+        }
+
+        SimpleDateFormat formatter =
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        return formatter.format(new Date(timestamp * 1000L));
     }
 }

@@ -15,12 +15,44 @@ public class StarService {
     @Autowired
     private StarMapper starMapper;
 
-    public List<Star> listAppStars() {
-        return starMapper.listAppStars();
+    private static final int APP_PAGE_SIZE = 10;
+
+    public List<Star> listAppStars(Integer page) {
+        int currentPage = page == null || page < 1 ? 1 : page;
+        int offset = (currentPage - 1) * APP_PAGE_SIZE;
+
+        // 多查询一条，用来判断是否还有下一页
+        return starMapper.listAppStars(
+                offset,
+                APP_PAGE_SIZE + 1
+        );
+    }
+
+    public Integer getAppPageSize() {
+        return APP_PAGE_SIZE;
     }
 
     public Star getAppStarDetail(Long id) {
         return starMapper.getAppStarDetail(id);
+    }
+
+    private static final int CONSOLE_PAGE_SIZE = 10;
+
+    public List<Star> listConsoleStars(Integer page) {
+        int offset = (page - 1) * CONSOLE_PAGE_SIZE;
+        return starMapper.listConsoleStars(offset, CONSOLE_PAGE_SIZE);
+    }
+
+    public Long countConsoleStars() {
+        return starMapper.countConsoleStars();
+    }
+
+    public Star getConsoleStarDetail(Long id) {
+        return starMapper.getConsoleStarDetail(id);
+    }
+
+    public Integer getConsolePageSize() {
+        return CONSOLE_PAGE_SIZE;
     }
 
     public Boolean deleteById(Integer id) {

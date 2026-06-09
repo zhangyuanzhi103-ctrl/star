@@ -11,10 +11,11 @@
         id,
         images,
         name,
-        team,
-        position
+        team
         FROM star
         WHERE is_deleted = 0
+        ORDER BY id
+        LIMIT #{offset}, #{limit}
     </select>
 
     <!-- app端：球星详情，返回完整轮播图和简介 -->
@@ -144,4 +145,42 @@
         AND is_deleted = 0
     </update>
 
+    <!-- console端：分页查询球星列表 -->
+    <select id="listConsoleStars"
+            resultType="com.zyz.star.module.entity.Star">
+        SELECT
+        id,
+        images,
+        name,
+        team,
+        position
+        FROM star
+        WHERE is_deleted = 0
+        ORDER BY id
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- console端：查询未删除球星总数 -->
+    <select id="countConsoleStars" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM star
+        WHERE is_deleted = 0
+    </select>
+
+    <!-- console端：查询球星详情 -->
+    <select id="getConsoleStarDetail"
+            resultType="com.zyz.star.module.entity.Star">
+        SELECT
+        id,
+        images,
+        name,
+        team,
+        position,
+        detailIntro,
+        create_time,
+        update_time
+        FROM star
+        WHERE id = #{id}
+        AND is_deleted = 0
+    </select>
 </mapper>

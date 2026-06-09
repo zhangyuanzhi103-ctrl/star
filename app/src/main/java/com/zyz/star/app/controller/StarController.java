@@ -25,24 +25,30 @@ public class StarController {
     private StarService starService;
 
     @GetMapping("/list")
-    public StarListVO findAll() {
-        log.info("进入球星列表接口");
+    public StarListVO findAll(@RequestParam Integer page) {
+        log.info("进入APP球星列表接口，page={}", page);
 
-        List<Star> stars = starService.listAppStars();
-        List<StarAppListVO> voList = new ArrayList<>();
+        List<Star> stars = starService.listAppStars(page);
+        int pageSize = starService.getAppPageSize();
 
-        for (Star star : stars) {
-            StarAppListVO vo = new StarAppListVO()
-                    .setId(star.getId())
-                    .setImage(StarImageUtil.getFirstImage(star.getImages()))
-                    .setName(star.getName())
-                    .setTeam(star.getTeam());
+        boolean isEnd = stars.size() <= pageSize;
 
-            voList.add(vo);
+        if (!isEnd) {
+            stars = new ArrayList<>(stars.subList(0, pageSize));
         }
+
+        List<StarAppListVO> voList = stars.stream()
+                .map(star -> new StarAppListVO()
+                        .setId(star.getId())
+                        .setImage(StarImageUtil.getFirstImage(star.getImages()))
+                        .setName(star.getName())
+                        .setTeam(star.getTeam()))
+                .toList();
 
         StarListVO result = new StarListVO();
         result.setList(voList);
+        result.setIsEnd(isEnd);
+
         return result;
     }
 

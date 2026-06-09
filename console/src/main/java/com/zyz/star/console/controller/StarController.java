@@ -1,10 +1,16 @@
 package com.zyz.star.console.controller;
 
+import com.zyz.star.console.domain.StarConsoleDetailVO;
+import com.zyz.star.console.domain.StarConsoleListVO;
+import com.zyz.star.console.domain.StarConsolePageVO;
 import com.zyz.star.module.entity.Star;
 import com.zyz.star.module.service.StarService;
+import com.zyz.star.module.util.StarImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -13,6 +19,47 @@ public class StarController {
 
     @Autowired
     private StarService starService;
+
+    @GetMapping("/list")
+    public StarConsolePageVO findPage(@RequestParam Integer page) {
+        log.info("进入console球星列表接口，page={}", page);
+
+        List<StarConsoleListVO> list = starService.listConsoleStars(page)
+                .stream()
+                .map(star -> new StarConsoleListVO()
+                        .setId(star.getId())
+                        .setImage(StarImageUtil.getFirstImage(star.getImages()))
+                        .setName(star.getName())
+                        .setTeam(star.getTeam())
+                        .setPosition(star.getPosition()))
+                .toList();
+
+        return new StarConsolePageVO()
+                .setList(list)
+                .setTotal(starService.countConsoleStars())
+                .setPageSize(starService.getConsolePageSize());
+    }
+
+    @GetMapping("/info")
+    public StarConsoleDetailVO findById(@RequestParam Long id) {
+        log.info("进入console球星详情接口，id={}", id);
+
+        Star star = starService.getConsoleStarDetail(id);
+
+        if (star == null) {
+            return null;
+        }
+
+        return new StarConsoleDetailVO()
+                .setId(star.getId())
+                .setImages(StarImageUtil.splitImages(star.getImages()))
+                .setName(star.getName())
+                .setTeam(star.getTeam())
+                .setPosition(star.getPosition())
+                .setDetailIntro(star.getDetailIntro())
+                .setCreateTime(StarImageUtil.formatTime(star.getCreateTime()))
+                .setUpdateTime(StarImageUtil.formatTime(star.getUpdateTime()));
+    }
 
     @DeleteMapping
     public String deleteById(@RequestParam Integer id) {
